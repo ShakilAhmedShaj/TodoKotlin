@@ -17,6 +17,7 @@ import com.decimalab.todokotlin.databinding.FragmentListBinding
 import com.decimalab.todokotlin.fragments.BaseViewModel
 import com.decimalab.todokotlin.fragments.list.adapter.ListAdapter
 import com.google.android.material.snackbar.Snackbar
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class ListFragment : Fragment() {
 
@@ -58,6 +59,9 @@ class ListFragment : Fragment() {
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.itemAnimator = SlideInUpAnimator().apply {
+            addDuration = 300
+        }
 
         swipeToDelete(recyclerView)
     }
