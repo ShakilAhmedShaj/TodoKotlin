@@ -1,15 +1,10 @@
 package com.decimalab.todokotlin.fragments.list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.decimalab.todokotlin.R
-import com.decimalab.todokotlin.data.models.Priority
 import com.decimalab.todokotlin.data.models.ToDoData
-import kotlinx.android.synthetic.main.row_layout.view.*
+import com.decimalab.todokotlin.databinding.RowLayoutBinding
 
 /**
  * Created by Shakil Ahmed Shaj on 31,August,2020.
@@ -18,48 +13,39 @@ import kotlinx.android.synthetic.main.row_layout.view.*
 class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
 
-    var dataList = emptyList<ToDoData>()
+    private var dataList = emptyList<ToDoData>()
 
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(private val binding: RowLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(toDoData: ToDoData) {
+            binding.toDoData = toDoData
+            binding.executePendingBindings()
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): MyViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = RowLayoutBinding.inflate(layoutInflater, parent, false)
+                return MyViewHolder(
+                    binding
+                )
+            }
+        }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_layout, parent, false)
-        return MyViewHolder(view)
+        return MyViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.itemView.title_txt.text = dataList[position].title
-        holder.itemView.description_txt.text = dataList[position].description
 
-        holder.itemView.row_background.setOnClickListener {
+        val currentItem = dataList[position]
+        holder.bind(currentItem)
 
-           val action = ListFragmentDirections.actionListFragmentToUpdateFragment(dataList[position])
-            holder.itemView.findNavController().navigate(action)
-        }
 
-        val priority = dataList[position].priority
-        when (priority) {
-            Priority.HIGH -> holder.itemView.priority_indicator.setBackgroundColor(
-                ContextCompat.getColor(
-                    holder.itemView.context, R.color.red
-                )
-            )
-
-            Priority.LOW -> holder.itemView.priority_indicator.setBackgroundColor(
-                ContextCompat.getColor(
-                    holder.itemView.context, R.color.yellow
-                )
-            )
-
-            Priority.MEDIUM -> holder.itemView.priority_indicator.setBackgroundColor(
-                ContextCompat.getColor(
-                    holder.itemView.context, R.color.green
-                )
-            )
-        }
     }
 
     override fun getItemCount(): Int {

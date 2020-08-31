@@ -12,6 +12,7 @@ import com.decimalab.todokotlin.R
 import com.decimalab.todokotlin.data.models.Priority
 import com.decimalab.todokotlin.data.models.ToDoData
 import com.decimalab.todokotlin.data.viewmodel.ToDoViewModel
+import com.decimalab.todokotlin.databinding.FragmentUpdateBinding
 import com.decimalab.todokotlin.fragments.BaseViewModel
 import kotlinx.android.synthetic.main.fragment_update.*
 import kotlinx.android.synthetic.main.fragment_update.view.*
@@ -22,23 +23,25 @@ class UpdateFragment : Fragment() {
     private val mBaseViewModel: BaseViewModel by viewModels()
     private val mToDoViewModel: ToDoViewModel by viewModels()
 
+    private var _binding: FragmentUpdateBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_update, container, false)
+        _binding = FragmentUpdateBinding.inflate(inflater, container, false)
+        binding.args = args
 
         setHasOptionsMenu(true)
 
-        view.current_title_et.setText(args.currentItem.title)
-        view.current_description_et.setText(args.currentItem.description)
-        view.current_priorities_spinner.setSelection(mBaseViewModel.parsePriorityToInt(args.currentItem.priority))
-        view.current_priorities_spinner.onItemSelectedListener = mBaseViewModel.listener
+
+        binding.currentPrioritiesSpinner.onItemSelectedListener = mBaseViewModel.listener
 
 
-        return view
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -94,5 +97,9 @@ class UpdateFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
 }
