@@ -1,4 +1,4 @@
-package com.decimalab.todokotlin.fragments.list
+package com.decimalab.todokotlin.fragments.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import com.decimalab.todokotlin.databinding.RowLayoutBinding
 class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
 
-    private var dataList = emptyList<ToDoData>()
+    var dataList = emptyList<ToDoData>()
 
 
     class MyViewHolder(private val binding: RowLayoutBinding) :
