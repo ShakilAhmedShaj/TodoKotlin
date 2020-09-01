@@ -11,12 +11,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.decimalab.todokotlin.R
 import com.decimalab.todokotlin.data.models.ToDoData
 import com.decimalab.todokotlin.data.viewmodel.ToDoViewModel
 import com.decimalab.todokotlin.databinding.FragmentListBinding
 import com.decimalab.todokotlin.fragments.BaseViewModel
 import com.decimalab.todokotlin.fragments.list.adapter.ListAdapter
+import com.decimalab.todokotlin.utils.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
@@ -52,6 +54,9 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         setHasOptionsMenu(true)
 
+        // Hide soft keyboard
+        hideKeyboard(requireActivity())
+
         return binding.root
     }
 
@@ -59,7 +64,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.itemAnimator = SlideInUpAnimator().apply {
             addDuration = 300
         }
@@ -112,8 +118,12 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_delete_all -> confirmRemoval()
-            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(this, Observer { adapter.setData(it) })
-            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(this, Observer { adapter.setData(it) })
+            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(
+                this,
+                Observer { adapter.setData(it) })
+            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(
+                this,
+                Observer { adapter.setData(it) })
         }
         return super.onOptionsItemSelected(item)
     }
