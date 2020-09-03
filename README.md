@@ -57,9 +57,9 @@
 
 ### Install the apk
 
-<a href="https://shakilahmedshaj.com//apks/ToDoKotlin.apk"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="185" height="70"/></a>
+<a href="https://shakilahmedshaj.com/apks/ToDoKotlin.apk"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="185" height="70"/></a>
 
-Go to the following [link](https://shakilahmedshaj.com//apks/ToDoKotlin.apk) to download the app.
+Go to the following [link](https://shakilahmedshaj.com/apks/ToDoKotlin.apk) to download the app.
 
 ### Directory Structure
 
@@ -117,7 +117,7 @@ TodoKotlin
 ```
 MIT License
 
-Copyright (c) 2020 Easy Task
+Copyright (c) 2020 To Do - Kotlin
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
